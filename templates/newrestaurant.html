@@ -1,0 +1,51 @@
+{% extends "main.html" %}
+{% block content %}
+
+<div class='header'>
+	{% include "authentication.html" %}
+	<div class='row header-top'>
+		<h1>New Restaurant</h1>
+	</div>
+</div>
+<div class="header-bottom">
+	{% include "header.html" %}
+</div>
+
+<div class="form-data-container">
+	<img src="{{url_for('static', filename='images/menu-background.jpg')}}" id='menu-bg'>
+	<div class="col-md-4"></div>
+
+	<form id='newrestaurantform' action="{{url_for('newRestaurant')}}" method='POST'>
+		<div class="col-md-4 form-contents">
+			<div class="cancel-button">
+				<a href="{{url_for('showRestaurants')}}">
+					<span class="glyphicon glyphicon-remove"></span>
+				</a>
+			</div>
+			<dl> 
+				<dt>Name: </dt>
+				<dd><input type='text' style='color:#000000' name='newrestaurantname' size="30" required></dd>
+
+				<dt>Description: </dt>
+				<dd><textarea rows="2" style='color:#000000' cols="30" name='newdescription' maxlength="40"></textarea></dd>
+			</dl>
+			<input type='submit' value='Create' class="btn btn-default">
+
+			<input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+		</div>
+	</form>
+	<div class="col-md-4"></div>
+</div>
+
+<!-- <script>
+	$('#newrestaurantform').submit(function() {
+		if ($.trim($('newrestaurantname').val()) === '') {
+			alert('Please provide name your Restaurant')
+			return false;
+		}
+	});
+</script> -->
+
+
+
+{% endblock %}

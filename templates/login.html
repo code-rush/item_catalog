@@ -1,0 +1,132 @@
+{% extends "main.html" %}
+{% block content %}
+
+<div class='header'>
+    {% include "authentication.html" %}
+    <div class='row header-top'>
+        <h1>Login Page</h1>
+    </div>
+</div>
+<div class="header-bottom">
+    {% include "header.html" %}
+</div>
+
+<div class="form-data-container">
+    <img src="{{url_for('static', filename='images/menu-background.jpg')}}" id='menu-bg'>
+
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <h3 style='color:#ffdd99;'>Login with:</h3>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+    <div class="col-md-3"></div>
+        <div class="col-md-6 form-contents text-center">
+
+
+        	<div id="signInButton">
+        		<span class="g-signin"
+        		data-scope="openid email"
+                data-clientid="675812041099-3up106tt6i5rtncvrmrd199e7dk3pd6a.apps.googleusercontent.com"
+                data-redirecturi="postmessage"
+                data-accesstype="offline"
+                data-cookiepolicy="single_host_origin"
+                data-callback="signInCallback"
+                data-approvalprompt="force">
+                </span>
+            </div>
+
+            <div id="result"></div>
+
+            <script>
+            	function signInCallback(authResult) {
+            		if (authResult['code']) {
+                	// Hide the sign-in button now that the user is authorized
+                	$('#signInButton').attr('style', 'display: none');
+                	// Send the one-time-use code to the server, if the server responds, write a 'login successful' message to the web page and then redirect back to the main restaurants page
+            	    $.ajax({
+            	    	type: 'POST',
+            	    	url: '/gconnect?state={{STATE}}',
+            	    	processData: false,
+            	    	data: authResult['code'],
+            	    	contentType: 'application/octet-stream; charset=utf-8',
+            	    	success: function(result) {
+            	    	// Handle or verify the server response if necessary.
+            	    		if (result) {
+            	    			$('#result').html('Login Successful!</br>'+ result + '</br>Redirecting...')
+            	    			setTimeout(function() {
+            	    				window.location.href = "/restaurants";
+            	    			}, 2000);
+            	    		} else if (authResult['error']) {
+            	    			console.log('There was an error: ' + authResult['error']);
+            	    		} else {
+            	    			$('#result').html('Failed to make a server-side call. Check your configuration and console.');
+            	    		}
+            	    	}
+            	      }); 
+            		} 
+            	}
+            </script>
+
+            <div style='color:#fff;'> - or - </div>
+
+            <button>
+                <fb:login-button scope="public_profile,email" onlogin="sendTokenToServer();">
+                    <a href='javascript:sendTokenToServer()'>Login with Facebook</a>
+                </fb:login-button>
+            </button>
+
+
+            <script>
+            	window.fbAsyncInit = function() {
+            		FB.init({
+            	    appId      : '1542560419407245',
+            	    cookie     : true,  // enable cookies to allow the server to access 
+            	                        // the session
+            	    xfbml      : true,  // parse social plugins on this page
+            	    version    : 'v2.2' // use version 2.2
+            		});
+            	};
+            	// Load the SDK asynchronously
+            	(function(d, s, id) {
+            		var js, fjs = d.getElementsByTagName(s)[0];
+                	if (d.getElementById(id)) return;
+                	js = d.createElement(s); js.id = id;
+                	js.src = "//connect.facebook.net/en_US/sdk.js";
+                	fjs.parentNode.insertBefore(js, fjs);
+                }(document, 'script', 'facebook-jssdk'));
+                // Here we run a very simple test of the Graph API after login is
+                // successful.  See statusChangeCallback() for when this call is made.
+                function sendTokenToServer() {
+                	var access_token = FB.getAuthResponse()['accessToken'];
+                	console.log(access_token)
+                	console.log('Welcome!  Fetching your information.... ');
+                	FB.api('/me', function(response) {
+                		console.log('Successful login for: ' + response.name);
+                		$.ajax({
+                			type: 'POST',
+                  			url: '/fbconnect?state={{STATE}}',
+                  			processData: false,
+                  			data: access_token,
+                  			contentType: 'application/octet-stream; charset=utf-8',
+                  			success: function(result) {
+                  				// Handle or verify the server response if necessary.
+                    			if (result) {
+                    				$('#result').html('Login Successful!</br>'+ result + '</br>Redirecting...')
+                    				setTimeout(function() {
+                    					window.location.href = "/restaurants";
+                    				}, 2000);
+                    			} else {
+                    				$('#result').html('Failed to make a server-side call. Check your configuration and console.');
+                    			}
+                    		}
+                    	});
+                	});
+                }
+            </script>
+        </div>
+    <div class="col-md-3"></div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,114 @@
+{% extends "main.html" %}
+{% block content %}
+
+<div class = 'header'>
+	{% include "authentication.html" %}
+	<figure class="creator">
+		{% if not creator.picture %}
+		<img src="{{url_for('static', filename='blank_user.jpg')}}">
+		{% else %}
+		<img src="{{creator.picture}}">
+		{% endif %}
+		<figcaption>{{creator.name}}</figcaption>
+	</figure>
+	<div class = 'row header-top'>
+		<h1>{{ restaurant.name }}</h1>
+		{% if restaurant.description %}
+		<p style="font-style:italic;">{{restaurant.description}}</p>
+		{% endif %}
+	</div>
+</div>
+<div class="header-bottom">
+	<div class="row">
+		<div class="col-md-1"></div>
+		<div class="col-md-10">
+			<div class='messages text-center'>
+			{% if count == 0 %}
+				<p>You currently have no menu items.</p>
+			{% endif %}
+
+			{% with messages = get_flashed_messages() %}
+				{% if messages %}
+				<ul>
+				{% for message in messages %}
+					<li><strong>{{ message }}</strong></li>
+				{% endfor %}
+				</ul>
+				{% endif %}
+			{% endwith %}
+			</div>
+		</div>
+		<div class="col-md-1"></div>
+	</div>
+	{% include "header.html" %}	
+</div>
+
+
+<div class="add-menu-button">
+	<a href="{{url_for('newMenuItem', restaurant_id=restaurant.id)}}">
+		<span class="glyphicon glyphicon-plus">Add New Item</span>
+	</a>
+</div>
+
+
+
+<div class="row menu-items-container">
+
+	<img src="{{url_for('static', filename='images/menu-background.jpg')}}" id='menu-bg'>
+
+	<div class="col-md-2"></div>
+	<div class="col-md-8 all-items">
+
+		{% macro show_items(course) %}
+			{% for i in items if i.course == course %}
+				{% if loop.first %}
+					<h2 class='menu-head'>{{course}}</h2>
+				{% endif %}
+				<div class="menu-items">
+					<div class="menu-editdeletepane">
+						<a href="{{url_for('editMenuItem', restaurant_id=restaurant.id, menu_id=i.id)}}">
+							<span class="glyphicon glyphicon-edit"></span>
+						</a>
+						<a href="{{url_for('deleteMenuItem', restaurant_id=restaurant.id, menu_id=i.id)}}">
+							<span class="glyphicon glyphicon-remove"></span>
+						</a>
+					</div>
+					{% if i.picture %}
+					<div class="menu-item-picture">
+						<img src="/static/uploads/{{restaurant.id}}/{{i.picture}}" id="item-picture">
+					</div>
+					{% endif %}
+					<div class="menu-item-contents">
+						<h4>{{i.name}}</h4>
+						<p><strong>{{i.price}}</strong></p>
+						<p><em>{{i.description}}</em></p>
+					</div>
+					<div class="item-endpoints">
+						<a href="{{url_for('menuItemJSON', restaurant_id=restaurant.id, menu_id=i.id)}}">JSON</a> -
+						<a href="{{url_for('menuItemXML', restaurant_id=restaurant.id, menu_id=i.id)}}">XML</a> -
+						<a href="{{url_for('menuItemRSSFeed', restaurant_id=restaurant.id, menu_id=i.id)}}">RSS</a>
+					</div>
+				</div>
+			{% endfor %}
+		{% endmacro %}
+
+		{{show_items('Appetizer')}}
+		{{show_items('Sides')}}
+		{{show_items('Entree')}}
+		{{show_items('Beverage')}}
+		{{show_items('Dessert')}}
+
+	</div>
+	<div class="col-md-2"></div>
+</div>
+
+
+<div class="row" >
+	<div class='endpoints'>
+		<a href="{{url_for('restaurantMenuJSON', restaurant_id=restaurant.id)}}">JSON</a>-
+		<a href="{{url_for('restaurantsMenuXML', restaurant_id=restaurant.id)}}">XML</a>-
+		<a href="{{url_for('menuRSSFeed', restaurant_id=restaurant.id)}}">RSS</a>
+	</div>
+</div>
+
+{% endblock %}

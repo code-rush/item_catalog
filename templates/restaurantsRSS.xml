@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+
+	<channel>
+		<title>Restaurants</title>
+		<link>http://localhost:5000/restaurants/</link>
+		<description>Restaurants created by Users</description>
+
+		{% for r in restaurants %}
+		<restaurant>
+			<title>{{r.name}}</title>
+			<description>{{r.description}}</description>
+			<id>{{r.id}}</id>
+			<user_id>{{r.user_id}}</user_id>
+		</restaurant>
+		{% endfor %}
+	</channel>
+</rss>

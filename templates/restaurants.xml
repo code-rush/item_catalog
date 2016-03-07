@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+	{% for r in restaurants %}
+	<restaurant>
+		<name>{{r.name}}</name>
+		<id>{{r.id}}</id>
+		<description>{{r.description}}</description>
+		<user_id>{{r.user_id}}</user_id>
+	</restaurant>
+	{% endfor %}
+</urlset>

@@ -1,0 +1,11 @@
+<div class="authorise">
+	{% if 'username' not in session %}
+	<a href="{{url_for('showLogin')}}">
+		<p>Log In<p>	
+	</a>
+	{% else %}
+	<a href="{{url_for('disconnect')}}">
+		<p>Log Out<p>	
+	</a>
+	{% endif %}
+</div>

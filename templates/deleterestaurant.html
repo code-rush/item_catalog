@@ -1,0 +1,33 @@
+{% extends "main.html" %}
+{% block content %}
+
+<div class='header'>
+	{% include "authentication.html" %}
+	<div class='row header-top'>
+		<h1>Delete Restaurant</h1>
+	</div>
+</div>
+<div class="header-bottom">
+	{% include "header.html" %}
+</div>
+
+<div class="form-data-container">
+	<img src="{{url_for('static', filename='images/menu-background.jpg')}}" id='menu-bg'>
+	<form action="{{url_for('deleteRestaurant', restaurant_id=d.id)}}" method="POST">
+		<div class="col-md-3"></div>
+		<div class="col-md-6 form-contents">
+			<div class="cancel-button">
+				<a href="{{url_for('showRestaurants')}}">
+					<span class="glyphicon glyphicon-remove"></span>
+				</a>
+			</div>
+			<h2>Are you sure you want to delete restaurant {{d.name}}?</h2>
+			<input type='submit' value='Delete' class="btn btn-default">
+
+			<input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+		</div>
+	</form>
+	<div class="col-md-3"></div>
+</div>
+
+{% endblock %}

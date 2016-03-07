@@ -1,0 +1,85 @@
+{% extends "main.html" %}
+{% block content %}
+<div class='header'>
+	{% include "authentication.html" %}
+	<div class='row header-top'>
+		<h1>Edit Menu Item</h1>
+	</div>
+</div>
+<div class="header-bottom">
+	{% include "header.html" %}
+</div>
+
+
+<div class="form-data-container">
+	<img src="{{url_for('static', filename='images/menu-background.jpg')}}" id='menu-bg'>
+	<div class="col-md-4"></div>
+
+	<form action="{{url_for('editMenuItem', restaurant_id=restaurant_id, menu_id=i.id)}}" enctype='multipart/form-data' method='POST'>
+		<div class="col-md-4 form-contents">
+			<div class="cancel-button">
+				<a href="{{url_for('restaurantMenu', restaurant_id=i.restaurant_id)}}" >
+					<span class="glyphicon glyphicon-remove"></span>
+				</a>
+			</div>
+
+			<dl>
+				<dt>Name:</dt>
+				<dd><input type ='text' style='color:#000000' size='30' name='name' placeholder = '{{i.name }}'></dd>
+
+				<dt>Picture:</dt>
+				<dd><input type='file' id='file_upload' name='picture_file'></dd>
+				<p style='color:#ffffff; font-style:italic;'>only .jpeg, .jpg or .png files.</p>
+
+				<dt>Description:</dt>
+				<dd><textarea name ='description' style='color:#000000' rows='5' cols='40' placeholder ='{{i.description }}'></textarea></dd>
+
+				<dt>Price:</dt>
+				<dd><input type ='text' style='color:#000000' size = '8' name='price' placeholder ='{{i.price}}'></dd>
+				
+
+				<dt>Course:</dt>
+				{% if i.course == 'Appetizer' %}
+				<dd><input type ='radio' name='course' value='Appetizer'checked> Appetizer</dd>
+				{%else%}
+				<dd><input type ='radio' name='course' value='Appetizer'> Appetizer</dd>
+				{% endif %}
+
+				{% if i.course == 'Entree' %}
+	   			<dd><input type ='radio' name='course' value='Entree' checked> Entree</dd>
+
+				{%else%}
+				<dd><input type ='radio' name='course' value='Entree'> Entree</dd>
+				{% endif %}
+
+				{% if i.course == 'Dessert'%}
+				<dd><input type ='radio' name='course' value='Dessert'checked> Dessert</dd>
+
+				{% else %}
+	   			<dd><input type ='radio' name='course' value='Dessert'> Dessert</dd>
+
+				{% endif %}
+
+
+				{% if i.course == 'Sides' %}
+				<dd><input type ='radio' name='course' value='Sides'checked> Sides</dd>
+				{%else%}
+				<dd><input type ='radio' name='course' value='Sides'> Sides</dd>
+				{% endif %}
+
+
+				{%if i.course =='Beverage'%}
+				<dd><input type ='radio' name='course' value='Beverage'checked> Beverage</dd>
+				{% else %}
+				<dd><input type ='radio' name='course' value='Beverage'> Beverage</dd>
+				{% endif %}
+			</dl>
+
+			<input type='submit' value='Edit' class="btn btn-default">
+
+			<input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+		</div>
+	</form>
+	<div class="col-md-4"></div>
+</div>
+{% endblock %}

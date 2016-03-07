@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+
+	<channel>
+		<title>Restaurants</title>
+		<link>http://localhost:5000/restaurants/{{restaurant.id}}/menu/{{i.id}}/</link>
+		<description>Items in a restaurant created by the User</description>
+
+		<restaurant>
+			<title>{{restaurant.name}}</title>
+			<description>{{restaurant.description}}</description>
+		</restaurant>
+
+		<item>
+			<name>{{i.name}}</name>
+			<id>{{i.id}}</id>
+			<course>{{i.course}}</course>
+			<description>{{i.description}}</description>
+			<price>{{i.price}}</price>
+			<picture>{{i.picture}}</picture>
+			<user_id>{{i.user_id}}</user_id>
+		</item>
+	</channel>
+</rss>

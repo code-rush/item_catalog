@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+	<restaurant>
+		<name>{{restaurant.name}}</name>
+		<id>{{restaurant.id}}</id>
+		<description>{{restaurant.description}}</description>
+	</restaurant>
+	<menu_item>
+		<name>{{item.name}}</name>
+		<description>{{item.description}}</description>
+		<id>{{item.id}}</id>
+		<price>{{item.price}}</price>
+		<course>{{item.course}}</course>
+		<picture>{{item.picture}}</picture>
+		<user_id>{{item.user_id}}</user_id>
+	</menu_item>
+</urlset>

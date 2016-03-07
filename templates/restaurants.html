@@ -1,0 +1,86 @@
+{% extends "main.html" %}
+{% block content %}
+
+<div class="header">
+	{% include "authentication.html" %}
+	<div class="row header-top">
+		<h1>Restaurants</h1>
+	</div>
+</div>
+<div class="header-bottom">
+	<div class="row">
+		<div class="col-md-1"></div>
+		<div class="col-md-10">
+			<div class='messages text-center'>
+				{% if count == 0 %}
+					<p>You currently have no restaurants.</p>
+				{% endif %}
+
+
+				{% with messages = get_flashed_messages() %}
+					{% if messages %}
+					<ul>
+					{% for message in messages %}
+						<li><strong>{{ message }}</strong></li>
+					{% endfor %}
+					</ul>
+					{% endif %}
+				{% endwith %}
+			</div>
+		</div>
+		<div class="col-md-1"></div>
+	</div>
+	{% include "header.html" %}
+</div>
+
+
+<div class="row restaurant-content">
+	<img src="{{url_for('static', filename='images/wood-background.jpg')}}" id="bg">
+
+	<div class='col-md-1'></div>
+	<div class='col-md-10'>
+		<div class="row">
+			<a href="{{url_for('newRestaurant')}}">
+				<div class="restaurant-tiles text-center">
+					<div class="create-restaurant-tile">
+						<img src="{{url_for('static', filename='images/plus-sign.png')}}" id="plus-sign">
+						<p>Add Restaurant</p>
+					</div>
+				</div>
+			</a>
+		</div>
+		<div class="row">
+			{% for r in restaurants %}
+				<div class="restaurant-tiles text-center">
+					<div class="first">
+						<div class="restaurant-editdeletepane">
+							<a href="{{url_for('editRestaurant', restaurant_id=r.id)}}"><span class="glyphicon glyphicon-edit"></span></a>
+							<a href="{{url_for('deleteRestaurant', restaurant_id=r.id)}}"><span class="glyphicon glyphicon-remove"></span></a>
+						</div>
+						<a href="{{url_for('restaurantMenu', restaurant_id=r.id)}}">
+							<img src="{{url_for('static', filename='images/menu-cover.jpg')}}" id="restaurant-menu">
+
+							<div class="restaurants-name">{{r.name}}</div>
+						</a>
+					</div>
+					{% if r.description %}
+					<div class="second">
+						<div class="restaurant-description" style='font-style:italic;'>{{r.description}}</div>
+					</div>
+					{% endif %}
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+	<div class='col-md-1'></div>
+</div>
+
+<div class="row">
+	<div class='endpoints'>
+		<a href="{{url_for('restaurantJSON')}}">JSON</a> -
+		<a href="{{url_for('restaurantXML')}}">XML</a> -
+		<a href="{{url_for('restaurantRSSFeed')}}">RSS</a>
+	</div>
+</div>
+
+{% endblock %}
