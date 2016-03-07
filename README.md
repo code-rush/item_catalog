@@ -25,7 +25,8 @@ Once you ssh into vagrant, it means your virtual enivronment is set up and run t
     
 7) Now start the application by executing the following command
 
-    python runserver.py
+    python database_setup.py  (only for the first time)
+    python project.py
     
 8) Fire up a browser and go to http://localhost:5000/
 
@@ -33,13 +34,13 @@ You are successfully running the application on your local machine.
 
 ### To populate the database with items, follow the steps(This is only if you are running the application for the first time)
 
-1) Copy database_setup.py from the folder item_catalog where it sits to the parent folder item_catalog which is inside catalog folder besides runserver.py.
+1) Run command
 
-2) In your terminal, press ctrl + c to stop running the application.
+    python lotsofmenuwithusers.py
+        
+2) Start the application again using 
 
-2) Execute python lotsofmenuwithusers.py and you will see the message "menu items added". This means you have successfully populated the database. Now you will be able to see the items in the application. 
-
-3) Run python runserver.py and enjoy the experience on the application.
+    python project.py
 
 
 # Application Experience
